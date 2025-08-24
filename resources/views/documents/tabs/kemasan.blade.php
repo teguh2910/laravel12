@@ -530,6 +530,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (mode === 'create') {
             petikemasModalTitle.textContent = 'Tambah Peti Kemas';
             petikemasForm.reset();
+            // Auto-generate sequence number for seri
+            seriInput.value = (petiKemasData.length + 1).toString();
         } else if (mode === 'edit') {
             petikemasModalTitle.textContent = 'Edit Peti Kemas';
             const petikemas = petiKemasData[index];

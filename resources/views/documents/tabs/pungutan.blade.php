@@ -238,6 +238,11 @@
 function toggleEditMode() {
     const inputs = document.querySelectorAll('#pungutan-content input[type="number"]');
     const editBtn = document.getElementById('edit-btn-text');
+    
+    if (!inputs.length || !editBtn) {
+        return; // Exit if elements don't exist
+    }
+    
     const isReadonly = inputs[0].hasAttribute('readonly');
     
     inputs.forEach(input => {
@@ -261,13 +266,27 @@ function toggleEditMode() {
 
 // Calculate totals for pungutan
 function calculateTotals() {
+    // Check if we're in the pungutan tab and required elements exist
+    const pungutanContent = document.getElementById('pungutan-content');
+    if (!pungutanContent || pungutanContent.classList.contains('hidden')) {
+        return; // Exit if pungutan tab is not active
+    }
+    
+    // Check if required elements exist
+    const totalDibayarElement = document.getElementById('total-dibayar');
+    const summaryDibayarElement = document.getElementById('summary-dibayar');
+    if (!totalDibayarElement || !summaryDibayarElement) {
+        return; // Exit if required elements don't exist
+    }
+    
     const categories = ['dibayar', 'ditanggung_pemerintah', 'ditunda', 'tidak_dipungut', 'dibebaskan', 'telah_dilunasi'];
     const taxes = ['bm', 'bmt', 'cukai', 'pph', 'ppn'];
     
     categories.forEach(category => {
         let total = 0;
         taxes.forEach(tax => {
-            const value = parseFloat(document.querySelector(`input[name="${tax}_${category}"]`).value) || 0;
+            const inputElement = document.querySelector(`input[name="${tax}_${category}"]`);
+            const value = inputElement ? parseFloat(inputElement.value) || 0 : 0;
             total += value;
         });
         
@@ -278,19 +297,44 @@ function calculateTotals() {
     });
     
     // Update summary
-    const totalDibayar = parseFloat(document.getElementById('total-dibayar').textContent.replace(/[^\d]/g, '')) || 0;
+    const totalDibayar = parseFloat(totalDibayarElement.textContent.replace(/[^\d]/g, '')) || 0;
     const totalFasilitas = ['ditanggung_pemerintah', 'ditunda', 'tidak_dipungut', 'dibebaskan'].reduce((sum, category) => {
-        const value = parseFloat(document.getElementById(`total-${category.replace('_', '-')}`).textContent.replace(/[^\d]/g, '')) || 0;
+        const totalElement = document.getElementById(`total-${category.replace('_', '-')}`);
+        const value = totalElement ? parseFloat(totalElement.textContent.replace(/[^\d]/g, '')) || 0 : 0;
         return sum + value;
     }, 0);
     
-    document.getElementById('summary-dibayar').textContent = `Rp ${new Intl.NumberFormat('id-ID').format(totalDibayar)}`;
-    document.getElementById('summary-fasilitas').textContent = `Rp ${new Intl.NumberFormat('id-ID').format(totalFasilitas)}`;
-    document.getElementById('summary-grand-total').textContent = `Rp ${new Intl.NumberFormat('id-ID').format(totalDibayar + totalFasilitas)}`;
+    const summaryFasilitasElement = document.getElementById('summary-fasilitas');
+    const summaryGrandTotalElement = document.getElementById('summary-grand-total');
+    
+    if (summaryDibayarElement) {
+        summaryDibayarElement.textContent = `Rp ${new Intl.NumberFormat('id-ID').format(totalDibayar)}`;
+    }
+    if (summaryFasilitasElement) {
+        summaryFasilitasElement.textContent = `Rp ${new Intl.NumberFormat('id-ID').format(totalFasilitas)}`;
+    }
+    if (summaryGrandTotalElement) {
+        summaryGrandTotalElement.textContent = `Rp ${new Intl.NumberFormat('id-ID').format(totalDibayar + totalFasilitas)}`;
+    }
 }
 
 // Initialize calculations on load
 document.addEventListener('DOMContentLoaded', function() {
-    calculateTotals();
+    // Only calculate totals if pungutan tab is initially active or when it becomes active
+    const pungutanContent = document.getElementById('pungutan-content');
+    if (pungutanContent && !pungutanContent.classList.contains('hidden')) {
+        calculateTotals();
+    }
+    
+    // Add event listener for when pungutan tab becomes active
+    const pungutanTab = document.querySelector('[data-tab="pungutan"]');
+    if (pungutanTab) {
+        pungutanTab.addEventListener('click', function() {
+            // Use setTimeout to ensure the tab content is visible before calculating
+            setTimeout(() => {
+                calculateTotals();
+            }, 10);
+        });
+    }
 });
 </script>

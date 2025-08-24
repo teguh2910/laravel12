@@ -6,6 +6,8 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\KemasanController;
 use App\Http\Controllers\PetiKemasController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\Admin\PengirimBarangController;
+use App\Http\Controllers\Admin\PenjualBarangController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/documents', [HomeController::class, 'store'])->name('documents.store');
@@ -13,6 +15,7 @@ Route::delete('/documents/{document}', [HomeController::class, 'destroy'])->name
 
 // Document routes
 Route::resource('documents', DocumentController::class)->except(['index', 'store', 'destroy']);
+Route::post('/documents/generate-nomor-aju', [DocumentController::class, 'generateNomorAju'])->name('documents.generate-nomor-aju');
 
 // Nested routes for Kemasan, Peti Kemas, and Barang
 Route::prefix('documents/{document}')->group(function () {
@@ -27,4 +30,14 @@ Route::prefix('api')->group(function () {
     Route::post('/barang', [BarangController::class, 'store'])->name('api.barang.store');
     Route::put('/barang/{barang}', [BarangController::class, 'update'])->name('api.barang.update');
     Route::delete('/barang/{barang}', [BarangController::class, 'destroy'])->name('api.barang.destroy');
+    
+    // Reference data routes
+    Route::get('/pengirim-barang', [\App\Http\Controllers\Api\ReferenceDataController::class, 'getPengirimBarang'])->name('api.pengirim-barang');
+    Route::get('/penjual-barang', [\App\Http\Controllers\Api\ReferenceDataController::class, 'getPenjualBarang'])->name('api.penjual-barang');
+});
+
+// Admin routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('pengirim-barang', PengirimBarangController::class);
+    Route::resource('penjual-barang', PenjualBarangController::class);
 });

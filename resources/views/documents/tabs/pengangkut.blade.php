@@ -40,9 +40,8 @@
                     </label>
                     <select name="cara_pengangkutan" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <option value="">Pilih cara pengangkutan</option>
-                        <option value="1 - LAUT" {{ old('cara_pengangkutan', $document->cara_pengangkutan ?? '') == '1 - LAUT' ? 'selected' : '' }}>1 - LAUT</option>
-                        <option value="2 - UDARA" {{ old('cara_pengangkutan', $document->cara_pengangkutan ?? '') == '2 - UDARA' ? 'selected' : '' }}>2 - UDARA</option>
-                        <option value="3 - DARAT" {{ old('cara_pengangkutan', $document->cara_pengangkutan ?? '') == '3 - DARAT' ? 'selected' : '' }}>3 - DARAT</option>
+                        <option value="1" {{ old('cara_pengangkutan', $document->cara_pengangkutan ?? '') == '1' ? 'selected' : '' }}>1 - LAUT</option>
+                        <option value="2" {{ old('cara_pengangkutan', $document->cara_pengangkutan ?? '') == '2' ? 'selected' : '' }}>2 - UDARA</option>
                     </select>
                 </div>
 
@@ -52,7 +51,7 @@
                         <span class="inline-flex items-center justify-center w-4 h-4 ml-1 bg-gray-400 text-white text-xs rounded-full cursor-help" title="Informasi nama sarana angkut">?</span>
                     </label>
                     <div class="relative">
-                        <input type="text" name="nama_sarana_angkut" value="{{ old('nama_sarana_angkut', $document->nama_sarana_angkut ?? 'DIMITRIS Y') }}" class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" name="nama_sarana_angkut" value="{{ old('nama_sarana_angkut', $document->nama_sarana_angkut ?? '') }}" class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -67,7 +66,7 @@
                         <span class="inline-flex items-center justify-center w-4 h-4 ml-1 bg-gray-400 text-white text-xs rounded-full cursor-help" title="Informasi nomor perjalanan">?</span>
                     </label>
                     <div class="relative">
-                        <input type="text" name="nomor_voy" value="{{ old('nomor_voy', $document->nomor_voy ?? '253S') }}" class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" name="nomor_voy" value="{{ old('nomor_voy', $document->nomor_voy ?? '') }}" class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -82,9 +81,9 @@
                     </label>
                     <select name="bendera" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <option value="">Pilih bendera</option>
-                        <option value="LR - LIBERIA" {{ old('bendera', $document->bendera ?? '') == 'LR - LIBERIA' ? 'selected' : '' }}>LR - LIBERIA</option>
-                        <option value="SG - SINGAPORE" {{ old('bendera', $document->bendera ?? '') == 'SG - SINGAPORE' ? 'selected' : '' }}>SG - SINGAPORE</option>
-                        <option value="ID - INDONESIA" {{ old('bendera', $document->bendera ?? '') == 'ID - INDONESIA' ? 'selected' : '' }}>ID - INDONESIA</option>
+                        <option value="LR" {{ old('bendera', $document->bendera ?? '') == 'LR' ? 'selected' : '' }}>LR - LIBERIA</option>
+                        <option value="SG" {{ old('bendera', $document->bendera ?? '') == 'SG' ? 'selected' : '' }}>SG - SINGAPORE</option>
+                        <option value="ID" {{ old('bendera', $document->bendera ?? '') == 'ID' ? 'selected' : '' }}>ID - INDONESIA</option>
                     </select>
                 </div>
 
@@ -111,9 +110,9 @@
                     </label>
                     <select name="pelabuhan_muat" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <option value="">Pilih pelabuhan muat</option>
-                        <option value="JPTYO - TOKYO" {{ old('pelabuhan_muat', $document->pelabuhan_muat ?? '') == 'JPTYO - TOKYO' ? 'selected' : '' }}>JPTYO - TOKYO</option>
-                        <option value="SGSIN - SINGAPORE" {{ old('pelabuhan_muat', $document->pelabuhan_muat ?? '') == 'SGSIN - SINGAPORE' ? 'selected' : '' }}>SGSIN - SINGAPORE</option>
-                        <option value="USNYC - NEW YORK" {{ old('pelabuhan_muat', $document->pelabuhan_muat ?? '') == 'USNYC - NEW YORK' ? 'selected' : '' }}>USNYC - NEW YORK</option>
+                        <option value="JPTYO" {{ old('pelabuhan_muat', $document->pelabuhan_muat ?? '') == 'JPTYO' ? 'selected' : '' }}>JPTYO - TOKYO</option>
+                        <option value="SGSIN" {{ old('pelabuhan_muat', $document->pelabuhan_muat ?? '') == 'SGSIN' ? 'selected' : '' }}>SGSIN - SINGAPORE</option>
+                        <option value="USNYC" {{ old('pelabuhan_muat', $document->pelabuhan_muat ?? '') == 'USNYC' ? 'selected' : '' }}>USNYC - NEW YORK</option>
                     </select>
                 </div>
 
@@ -124,18 +123,34 @@
                     </label>
                     <select name="pelabuhan_transit" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <option value="">Pilih pelabuhan transit</option>
-                        <option value="SGSIN - SINGAPORE" {{ old('pelabuhan_transit', $document->pelabuhan_transit ?? '') == 'SGSIN - SINGAPORE' ? 'selected' : '' }}>SGSIN - SINGAPORE</option>
-                        <option value="JPTYO - TOKYO" {{ old('pelabuhan_transit', $document->pelabuhan_transit ?? '') == 'JPTYO - TOKYO' ? 'selected' : '' }}>JPTYO - TOKYO</option>
-                        <option value="HKHKG - HONG KONG" {{ old('pelabuhan_transit', $document->pelabuhan_transit ?? '') == 'HKHKG - HONG KONG' ? 'selected' : '' }}>HKHKG - HONG KONG</option>
+                        <option value="SGSIN" {{ old('pelabuhan_transit', $document->pelabuhan_transit ?? '') == 'SGSIN' ? 'selected' : '' }}>SGSIN - SINGAPORE</option>
+                        <option value="JPTYO" {{ old('pelabuhan_transit', $document->pelabuhan_transit ?? '') == 'JPTYO' ? 'selected' : '' }}>JPTYO - TOKYO</option>
+                        <option value="HKHKG" {{ old('pelabuhan_transit', $document->pelabuhan_transit ?? '') == 'HKHKG' ? 'selected' : '' }}>HKHKG - HONG KONG</option>
                     </select>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Pelabuhan Tujuan
-                        <span class="inline-flex items-center justify-center w-4 h-4 ml-1 bg-gray-400 text-white text-xs rounded-full cursor-help" title="Informasi pelabuhan tujuan">?</span>
+                        <span class="inline-flex items-center justify-center w-4 h-4 ml-1 bg-gray-400 text-white text-xs rounded-full cursor-help" title="Pelabuhan tujuan diambil dari pengaturan header">?</span>
                     </label>
-                    <input type="text" name="pelabuhan_tujuan" value="{{ old('pelabuhan_tujuan', $document->pelabuhan_tujuan ?? 'IDTPP - Tanjung Priok') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    @php
+                        $pelabuhan_tujuan_value = old('pelabuhan_tujuan', $document->pelabuhan_tujuan ?? '');
+                        $pelabuhan_display = '';
+                        switch($pelabuhan_tujuan_value) {
+                            case 'IDTPP':
+                                $pelabuhan_display = 'IDTPP - TANJUNG PRIOK';
+                                break;
+                            case 'IDCGK':
+                                $pelabuhan_display = 'IDCGK - SOEKARNO HATTA';
+                                break;
+                            default:
+                                $pelabuhan_display = $pelabuhan_tujuan_value ? $pelabuhan_tujuan_value : 'Belum dipilih di header';
+                        }
+                    @endphp
+                    <input type="hidden" name="pelabuhan_tujuan" value="{{ $pelabuhan_tujuan_value }}">
+                    <input type="text" value="{{ $pelabuhan_display }}" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-700 cursor-not-allowed focus:outline-none">
+                    <p class="text-xs text-gray-500 mt-1">Pelabuhan tujuan diambil dari pengaturan di tab Header</p>
                 </div>
 
                 <div>

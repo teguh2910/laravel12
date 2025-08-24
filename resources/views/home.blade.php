@@ -18,7 +18,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen flex flex-col">
     <!-- Header -->
     <header class="bg-white shadow-sm border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,6 +27,7 @@
                     <h1 class="text-xl font-semibold text-gray-900">CEISA 4.0</h1>
                 </div>
                 <div class="flex items-center space-x-4">
+                    <a href="{{ route('admin.pengirim-barang.index') }}" class="text-sm text-blue-600 hover:text-blue-800">Master Data</a>
                     <span class="text-sm text-gray-500">Hi, Customer Importir</span>
                     <div class="h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center">
                         <span class="text-white text-sm font-medium">CI</span>
@@ -37,7 +38,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex-1">
         <!-- Page Header -->
         <div class="mb-6">
             <h2 class="text-2xl font-bold text-gray-900 mb-2">
@@ -285,7 +286,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 mt-12">
+    <footer class="bg-white border-t border-gray-200 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4 text-sm text-gray-500">
                 <div>2025 © Host to Host</div>

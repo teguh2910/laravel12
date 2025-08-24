@@ -86,7 +86,17 @@ class DocumentController extends Controller
                 'voluntary_declaration' => 'nullable|numeric',
                 'berat_kotor' => 'nullable|numeric',
                 'berat_bersih' => 'nullable|numeric',
+                // Pernyataan validation
+                'pernyataan_tempat' => 'nullable|string',
+                'pernyataan_tanggal' => 'nullable|date',
+                'pernyataan_nama' => 'nullable|string',
+                'pernyataan_jabatan' => 'nullable|string',
             ]);
+
+            // Auto-generate nomor_aju if it's empty
+            if (empty($validated['nomor_aju'])) {
+                $validated['nomor_aju'] = Document::generateNomorAju();
+            }
 
             $document->update($validated);
 
@@ -120,6 +130,23 @@ class DocumentController extends Controller
             }
             
             throw $e;
+        }
+    }
+    
+    public function generateNomorAju()
+    {
+        try {
+            $nomorAju = Document::generateNomorAju();
+            
+            return response()->json([
+                'success' => true,
+                'nomor_aju' => $nomorAju
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error generating nomor aju: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

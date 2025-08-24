@@ -7,16 +7,14 @@
             <div class="px-6 py-4 border-b border-gray-200">
                 <div class="flex items-center justify-between">
                     <h4 class="text-base font-medium text-gray-900">Harga</h4>
-                    <button type="button" class="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600">
-                        Info
-                    </button>
+                    
                 </div>
             </div>
             <div class="p-6 space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Jenis Valuta 
-                        <span class="inline-flex items-center justify-center w-4 h-4 bg-blue-500 text-white text-xs rounded-full ml-1">?</span>
+                        
                     </label>
                     <select name="jenis_valuta" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <option value="JPY" {{ old('jenis_valuta', $document->jenis_valuta) == 'JPY' ? 'selected' : '' }}>JPY - YEN</option>
@@ -29,13 +27,13 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         NDPBM <span class="text-xs text-gray-500">(affects Nilai Pabean)</span>
                     </label>
-                    <input type="text" name="ndpbm" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value="{{ old('ndpbm', $document->ndpbm ?? '109.7884') }}">
+                    <input type="text" name="ndpbm" id="ndpbm" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value="{{ old('ndpbm', $document->ndpbm ?? '0') }}">
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Transaksi</label>
                     <select name="jenis_transaksi" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        <option value="LAI" {{ old('jenis_transaksi', $document->jenis_transaksi) == 'LAI' ? 'selected' : '' }}>LAI - TRANSAKSI PERDAGANGAN ATAU CARA PEMBAYARAN LAINNYA</option>
+                        <option value="LAI">LAI - TRANSAKSI PERDAGANGAN ATAU CARA PEMBAYARAN LAINNYA</option>
                     </select>
                 </div>
                 
@@ -47,7 +45,7 @@
                         <select name="harga_barang_incoterm" class="px-3 py-2 border border-gray-300 rounded-l-md border-r-0 shadow-sm focus:outline-none focus:ring-blue-500 bg-gray-50">
                             <option value="CIF" {{ old('harga_barang_incoterm', $document->harga_barang_incoterm) == 'CIF' ? 'selected' : '' }}>CIF</option>
                         </select>
-                        <input type="text" name="harga_barang_nilai" class="flex-1 px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value="{{ old('harga_barang_nilai', number_format($document->harga_barang_nilai ?? 6490403.00, 2)) }}">
+                        <input type="text" name="harga_barang_nilai" id="harga_barang_nilai" class="flex-1 px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value="{{ old('harga_barang_nilai', number_format($document->harga_barang_nilai ?? 0, 2)) }}">
                     </div>
                 </div>
                 
@@ -55,7 +53,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Nilai Pabean <span class="text-xs text-blue-600">(Auto-calculated)</span>
                     </label>
-                    <input type="text" name="nilai_pabean" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-blue-50 focus:outline-none" value="{{ old('nilai_pabean', number_format($document->nilai_pabean ?? 712570960.73, 2)) }}" readonly>
+                    <input type="text" name="nilai_pabean" id="nilai_pabean" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-blue-50 focus:outline-none" value="{{ old('nilai_pabean', number_format($document->nilai_pabean ?? 0, 2)) }}" readonly>
                 </div>
             </div>
         </div>
@@ -65,9 +63,7 @@
             <div class="px-6 py-4 border-b border-gray-200">
                 <div class="flex items-center justify-between">
                     <h4 class="text-base font-medium text-gray-900">Biaya Lainnya</h4>
-                    <button type="button" class="px-3 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600">
-                        Info
-                    </button>
+                    
                 </div>
             </div>
             <div class="p-6 space-y-4">
@@ -115,9 +111,7 @@
             <div class="px-6 py-4 border-b border-gray-200">
                 <div class="flex items-center justify-between">
                     <h4 class="text-base font-medium text-gray-900">Berat</h4>
-                    <button type="button" class="px-3 py-1 bg-purple-500 text-white text-xs rounded hover:bg-purple-600">
-                        Info
-                    </button>
+                    
                 </div>
             </div>
             <div class="p-6 space-y-4">
@@ -126,7 +120,7 @@
                         Berat Kotor (KGM) 
                         <span class="inline-flex items-center justify-center w-4 h-4 bg-purple-500 text-white text-xs rounded-full ml-1">?</span>
                     </label>
-                    <input type="text" name="berat_kotor" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" value="{{ old('berat_kotor', number_format($document->berat_kotor ?? 4698.7000, 4)) }}">
+                    <input type="text" name="berat_kotor" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" value="{{ old('berat_kotor', number_format($document->berat_kotor ?? 0, 4)) }}">
                 </div>
                 
                 <div>
@@ -158,6 +152,45 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Function to calculate Nilai Pabean
+    function calculateNilaiPabean() {
+        const ndpbmInput = document.getElementById('ndpbm');
+        const hargaBarangInput = document.getElementById('harga_barang_nilai');
+        const nilaiPabeanInput = document.getElementById('nilai_pabean');
+        
+        if (!ndpbmInput || !hargaBarangInput || !nilaiPabeanInput) return;
+        
+        // Get values and clean them (remove commas and formatting)
+        const ndpbmValue = parseFloat(ndpbmInput.value.replace(/,/g, '')) || 0;
+        const hargaBarangValue = parseFloat(hargaBarangInput.value.replace(/,/g, '')) || 0;
+        
+        // Calculate Nilai Pabean = NDPBM × Harga Barang
+        const nilaiPabean = ndpbmValue * hargaBarangValue;
+        
+        // Format and set the result
+        nilaiPabeanInput.value = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(nilaiPabean);
+    }
+    
+    // Add event listeners for automatic calculation
+    const ndpbmInput = document.getElementById('ndpbm');
+    const hargaBarangInput = document.getElementById('harga_barang_nilai');
+    
+    if (ndpbmInput) {
+        ndpbmInput.addEventListener('input', calculateNilaiPabean);
+        ndpbmInput.addEventListener('blur', calculateNilaiPabean);
+    }
+    
+    if (hargaBarangInput) {
+        hargaBarangInput.addEventListener('input', calculateNilaiPabean);
+        hargaBarangInput.addEventListener('blur', calculateNilaiPabean);
+    }
+    
+    // Calculate on page load
+    calculateNilaiPabean();
+
     const saveBtn = document.getElementById('save-transaksi-btn');
     const btnText = saveBtn.querySelector('.btn-text');
     const btnLoading = saveBtn.querySelector('.btn-loading');

@@ -38,16 +38,15 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         API/NIB
                     </label>
-                    <input type="text" name="importir_api" value="{{ old('importir_api', $document->importir_api ?? '') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <input type="text" name="importir_api" value="{{ old('importir_api', $document->importir_api ?? '8120006810093') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Status
                     </label>
                     <select name="status" id="status" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        <option value="mita">MITA</option>
-                        <option value="non-mita">NON-MITA</option>
-                        <option value="aeo">AEO</option>
+                        <option value="MITA">MITA</option>
+                        <option value="AEO">AEO</option>
                     </select>
                 </div>
             </div>
@@ -139,7 +138,7 @@
             <div class="px-6 py-4 border-b border-gray-200">
                 <div class="flex items-center justify-between">
                     <h4 class="text-base font-medium text-gray-900">Pengirim Barang</h4>
-                    <button type="button" class="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600">
+                    <button type="button" id="pengirimReferenceBtn" class="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600">
                         Data Referensi
                     </button>
                 </div>
@@ -164,9 +163,8 @@
                         Negara
                     </label>
                     <select name="pengirim_negara" id="pengirim_negara" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        <option value="indonesia">INDONESIA</option>
-                        <option value="singapore">SINGAPORE</option>
-                        <option value="japan">JAPAN</option>
+                        <option value="sg">SINGAPORE</option>
+                        <option value="jp">JAPAN</option>
                     </select>    
                 </div>                
             </div>
@@ -176,7 +174,7 @@
             <div class="px-6 py-4 border-b border-gray-200">
                 <div class="flex items-center justify-between">
                     <h4 class="text-base font-medium text-gray-900">Penjual Barang</h4>
-                    <button type="button" class="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600">
+                    <button type="button" id="penjualReferenceBtn" class="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600">
                         Data Referensi
                     </button>
                 </div>
@@ -201,9 +199,8 @@
                         Negara
                     </label>
                     <select name="penjual_negara" id="penjual_negara" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        <option value="indonesia">INDONESIA</option>
-                        <option value="singapore">SINGAPORE</option>
-                        <option value="japan">JAPAN</option>
+                        <option value="sg">SINGAPORE</option>
+                        <option value="jp">JAPAN</option>
                     </select>    
                 </div>
 
@@ -229,3 +226,34 @@
         </button>
     </div>
 </div>
+
+<!-- Include Reference Data Modal -->
+@include('components.reference-data-modal')
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Pengirim Barang Reference Button
+    document.getElementById('pengirimReferenceBtn').addEventListener('click', function() {
+        if (window.referenceDataModal) {
+            window.referenceDataModal.open('pengirim', function(data) {
+                // Fill the pengirim barang fields
+                document.querySelector('input[name="pengirim_nama"]').value = data.nama;
+                document.querySelector('textarea[name="pengirim_alamat"]').value = data.alamat;
+                document.querySelector('select[name="pengirim_negara"]').value = data.negara;
+            });
+        }
+    });
+
+    // Penjual Barang Reference Button
+    document.getElementById('penjualReferenceBtn').addEventListener('click', function() {
+        if (window.referenceDataModal) {
+            window.referenceDataModal.open('penjual', function(data) {
+                // Fill the penjual barang fields
+                document.querySelector('input[name="penjual_nama"]').value = data.nama;
+                document.querySelector('textarea[name="penjual_alamat"]').value = data.alamat;
+                document.querySelector('select[name="penjual_negara"]').value = data.negara;
+            });
+        }
+    });
+});
+</script>

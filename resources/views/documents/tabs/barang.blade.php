@@ -155,6 +155,7 @@
             
             const modalTitle = document.getElementById('modal-title');
             const saveBtn = document.getElementById('save-btn');
+            const seriDisplay = document.getElementById('seri-display');
             
             if (modalTitle) {
                 modalTitle.textContent = 'Tambah Barang';
@@ -162,6 +163,10 @@
             
             if (saveBtn) {
                 saveBtn.textContent = 'Simpan';
+            }
+            
+            if (seriDisplay) {
+                seriDisplay.classList.add('hidden');
             }
             
             if (form) {
@@ -194,24 +199,92 @@
                 
                 // Fill form with barang data
                 const barangId = document.getElementById('barang-id');
-                const seri = document.getElementById('seri');
+                const seriDisplay = document.getElementById('seri-display');
+                const seriValue = document.getElementById('seri-value');
                 const posTarifHs = document.getElementById('pos_tarif_hs');
+                const pernyataanLartas = document.querySelector('input[name="pernyataan_lartas"]:checked') ? null : document.querySelector('input[name="pernyataan_lartas"]');
+                const kodeBarang = document.getElementById('kode_barang');
                 const uraianJenisBarang = document.getElementById('uraian_jenis_barang');
+                const spesifikasiLain = document.getElementById('spesifikasi_lain');
+                const kondisiBarang = document.getElementById('kondisi_barang');
+                const negaraAsal = document.getElementById('negara_asal');
+                const beratBersih = document.getElementById('berat_bersih');
                 const nilaiBarang = document.getElementById('nilai_barang');
                 const jumlahSatuan = document.getElementById('jumlah_satuan');
                 const jenisSatuan = document.getElementById('jenis_satuan');
+                const jumlahKemasan = document.getElementById('jumlah_kemasan');
+                const kemasan = document.getElementById('kemasan');
+                const fob = document.getElementById('fob');
+                const freight = document.getElementById('freight');
+                const asuransi = document.getElementById('asuransi');
+                const hargaPerSatuan = document.getElementById('harga_per_satuan');
+                const nilaiPabeanRupiah = document.getElementById('nilai_pabean_rupiah');
+                const dokumenFasilitasLartas = document.getElementById('dokumen_fasilitas_lartas');
+                
+                // Pungutan fields
+                const bmRate = document.getElementById('bm_rate');
+                const bmType = document.getElementById('bm_type');
+                const bmAmount = document.getElementById('bm_amount');
+                const ppnRate = document.getElementById('ppn_rate');
+                const ppnType = document.getElementById('ppn_type');
+                const ppnAmount = document.getElementById('ppn_amount');
+                const pphRate = document.getElementById('pph_rate');
+                const pphType = document.getElementById('pph_type');
+                const pphAmount = document.getElementById('pph_amount');
                 
                 if (barangId) barangId.value = barang.id;
-                if (seri) seri.value = barang.seri;
-                if (posTarifHs) posTarifHs.value = barang.pos_tarif_hs;
-                if (uraianJenisBarang) uraianJenisBarang.value = barang.uraian_jenis_barang;
-                if (nilaiBarang) nilaiBarang.value = barang.nilai_barang;
-                if (jumlahSatuan) jumlahSatuan.value = barang.jumlah_satuan;
-                if (jenisSatuan) jenisSatuan.value = barang.jenis_satuan;
+                if (seriDisplay && seriValue) {
+                    seriDisplay.classList.remove('hidden');
+                    seriValue.textContent = barang.seri;
+                }
+                if (posTarifHs) posTarifHs.value = barang.pos_tarif_hs || '';
+                
+                // Handle radio buttons for pernyataan_lartas
+                if (barang.pernyataan_lartas) {
+                    const pernyataanRadio = document.querySelector(`input[name="pernyataan_lartas"][value="${barang.pernyataan_lartas}"]`);
+                    if (pernyataanRadio) pernyataanRadio.checked = true;
+                }
+                
+                if (kodeBarang) kodeBarang.value = barang.kode_barang || '';
+                if (uraianJenisBarang) uraianJenisBarang.value = barang.uraian_jenis_barang || '';
+                if (spesifikasiLain) spesifikasiLain.value = barang.spesifikasi_lain || '';
+                if (kondisiBarang) kondisiBarang.value = barang.kondisi_barang || '';
+                if (negaraAsal) negaraAsal.value = barang.negara_asal || '';
+                if (beratBersih) beratBersih.value = barang.berat_bersih || '';
+                if (nilaiBarang) nilaiBarang.value = barang.nilai_barang || '';
+                if (jumlahSatuan) jumlahSatuan.value = barang.jumlah_satuan || '';
+                if (jenisSatuan) jenisSatuan.value = barang.jenis_satuan || '';
+                if (jumlahKemasan) jumlahKemasan.value = barang.jumlah_kemasan || '';
+                if (kemasan) kemasan.value = barang.kemasan || '';
+                if (fob) fob.value = barang.fob || '';
+                if (freight) freight.value = barang.freight || '0.00';
+                if (asuransi) asuransi.value = barang.asuransi || '0.00';
+                if (hargaPerSatuan) hargaPerSatuan.value = barang.harga_per_satuan || '';
+                if (nilaiPabeanRupiah) nilaiPabeanRupiah.value = barang.nilai_pabean_rupiah || '';
+                
+                // Don't set dokumen_fasilitas_lartas here - it will be set after options are populated
+                
+                // Fill pungutan fields
+                if (bmRate) bmRate.value = barang.bm_rate || '';
+                if (bmType) bmType.value = barang.bm_type || '';
+                if (bmAmount) bmAmount.value = barang.bm_amount || '';
+                if (ppnRate) ppnRate.value = barang.ppn_rate || '12';
+                if (ppnType) ppnType.value = barang.ppn_type || '';
+                if (ppnAmount) ppnAmount.value = barang.ppn_amount || '';
+                if (pphRate) pphRate.value = barang.pph_rate || '2.5';
+                if (pphType) pphType.value = barang.pph_type || '';
+                if (pphAmount) pphAmount.value = barang.pph_amount || '';
                 
                 clearErrors();
                 editingId = barang.id;
                 modal.classList.remove('hidden');
+                
+                // Set dokumen_fasilitas_lartas value after options are populated
+                setTimeout(() => {
+                    if (dokumenFasilitasLartas && barang.dokumen_fasilitas_lartas) {
+                        dokumenFasilitasLartas.value = barang.dokumen_fasilitas_lartas;
+                    }
+                }, 150); // Wait a bit longer than the populateDokumenFasilitasOptions delay
             }
 
             function closeModalDialog() {
@@ -220,6 +293,10 @@
                 }
                 if (form) {
                     form.reset();
+                }
+                const seriDisplay = document.getElementById('seri-display');
+                if (seriDisplay) {
+                    seriDisplay.classList.add('hidden');
                 }
                 clearErrors();
                 editingId = null;
@@ -284,6 +361,15 @@
                     }
 
                     if (!response.ok) {
+                        // For 422 validation errors, try to get the detailed error response
+                        if (response.status === 422) {
+                            const errorData = await response.json();
+                            console.log('Validation errors:', errorData);
+                            if (errorData.errors) {
+                                displayErrors(errorData.errors);
+                                return;
+                            }
+                        }
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
 

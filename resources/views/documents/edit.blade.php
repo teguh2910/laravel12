@@ -33,7 +33,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <h1 class="text-xl font-semibold text-gray-900">CEISA 4.0</h1>
+                <a href="{{ route('home') }}" class="text-blue-600 hover:text-blue-800 mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>    
+                <h1 class="text-xl font-semibold text-gray-900">CEISA 4.0</h1>
                 </div>
                 <div class="flex items-center space-x-4">
                     <span class="text-sm text-gray-500">Hi, Customer Importir</span>
@@ -146,8 +151,21 @@
                     if (targetContent) {
                         targetContent.classList.remove('hidden');
                     }
+                    
+                    // Update pelabuhan tujuan when switching to pengangkut tab
+                    if (targetTab === 'pengangkut') {
+                        updatePelabuhanTujuanInPengangkut();
+                    }
                 });
             });
+
+            // Listen for changes to pelabuhan tujuan in header to update pengangkut tab
+            const headerPelabuhanTujuan = document.querySelector('select[name="pelabuhan_tujuan"]');
+            if (headerPelabuhanTujuan) {
+                headerPelabuhanTujuan.addEventListener('change', function() {
+                    updatePelabuhanTujuanInPengangkut();
+                });
+            }
 
             // Document modal functionality
             const dokumenModal = document.getElementById('modal-tambah-dokumen');
@@ -451,6 +469,11 @@
                             const successMsg = isEditMode ? 'Dokumen berhasil diupdate!' : 'Dokumen berhasil ditambahkan!';
                             showSuccessMessage(successMsg);
                             
+                            // Refresh dokumen fasilitas dropdown in barang modal
+                            if (window.populateDokumenFasilitasOptions) {
+                                window.populateDokumenFasilitasOptions();
+                            }
+                            
                             // Close modal and reset form
                             closeDokumenModal();
                         } else {
@@ -576,6 +599,11 @@
                     
                     await updateSerialNumbers();
                     showSuccessMessage('Dokumen berhasil dihapus!');
+                    
+                    // Refresh dokumen fasilitas dropdown in barang modal
+                    if (window.populateDokumenFasilitasOptions) {
+                        window.populateDokumenFasilitasOptions();
+                    }
                 } catch (error) {
                     console.error('Error deleting document:', error);
                     showErrorMessage('Gagal menghapus dokumen: ' + error.message);
@@ -645,6 +673,9 @@
                 const data = await response.json();
 
                 if (data.success) {
+                    // Update pelabuhan tujuan in pengangkut tab
+                    updatePelabuhanTujuanInPengangkut();
+                    
                     // Show success message
                     showSuccessMessage('Data header berhasil disimpan!');
                     
@@ -710,6 +741,36 @@
         function removeMessages() {
             const existingMessages = document.querySelectorAll('.bg-green-50, .bg-red-50');
             existingMessages.forEach(msg => msg.remove());
+        }
+
+        // Function to update pelabuhan tujuan in pengangkut tab
+        function updatePelabuhanTujuanInPengangkut() {
+            const headerPelabuhanTujuan = document.querySelector('select[name="pelabuhan_tujuan"]');
+            const pengangkutPelabuhanTujuanHidden = document.querySelector('#pengangkut-content input[name="pelabuhan_tujuan"]');
+            const pengangkutPelabuhanTujuanDisplay = document.querySelector('#pengangkut-content input[readonly]');
+            
+            if (headerPelabuhanTujuan && pengangkutPelabuhanTujuanHidden && pengangkutPelabuhanTujuanDisplay) {
+                const selectedValue = headerPelabuhanTujuan.value;
+                let displayText = 'Belum dipilih di header';
+                
+                // Map the selected value to display text
+                switch(selectedValue) {
+                    case 'IDTPP':
+                        displayText = 'IDTPP - TANJUNG PRIOK';
+                        break;
+                    case 'IDCGK':
+                        displayText = 'IDCGK - SOEKARNO HATTA';
+                        break;
+                    default:
+                        if (selectedValue) {
+                            displayText = selectedValue;
+                        }
+                }
+                
+                // Update both hidden and display inputs
+                pengangkutPelabuhanTujuanHidden.value = selectedValue;
+                pengangkutPelabuhanTujuanDisplay.value = displayText;
+            }
         }
 
         // Function to save entitas data and move to next tab
@@ -992,6 +1053,116 @@
                 btnLoading.style.display = 'none';
             }
         }
+
+        // Handle final save button (Selesai)
+        async function handleFinalSave() {
+            const btn = document.getElementById('save-final-button');
+            if (!btn) return;
+
+            // Create loading state elements if they don't exist
+            let btnText = btn.querySelector('.btn-text');
+            let btnLoading = btn.querySelector('.btn-loading');
+            
+            if (!btnText) {
+                btnText = document.createElement('span');
+                btnText.className = 'btn-text';
+                btnText.textContent = btn.textContent;
+                btn.innerHTML = '';
+                btn.appendChild(btnText);
+            }
+            
+            if (!btnLoading) {
+                btnLoading = document.createElement('span');
+                btnLoading.className = 'btn-loading hidden';
+                btnLoading.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Menyimpan...
+                `;
+                btn.appendChild(btnLoading);
+            }
+
+            try {
+                // Show loading state
+                btn.disabled = true;
+                btnText.classList.add('hidden');
+                btnLoading.classList.remove('hidden');
+
+                const form = document.getElementById('bc20-form');
+                
+                // Create clean form data with only the essential fields
+                const pernyataanData = new FormData();
+                
+                // Add CSRF token and method from the form
+                const formData = new FormData(form);
+                pernyataanData.append('_token', formData.get('_token'));
+                pernyataanData.append('_method', 'PUT');
+
+                // Add only pernyataan fields
+                const pernyataanFields = [
+                    'pernyataan_tempat',
+                    'pernyataan_tanggal', 
+                    'pernyataan_nama',
+                    'pernyataan_jabatan'
+                ];
+
+                pernyataanFields.forEach(field => {
+                    const element = document.querySelector(`[name="${field}"]`);
+                    if (element && element.value) {
+                        pernyataanData.append(field, element.value);
+                    }
+                });
+
+                // Send AJAX request to update document
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: pernyataanData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                console.log('Response status:', response.status);
+
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                if (data.success) {
+                    // Show success message
+                    showSuccessMessage('Dokumen berhasil disimpan secara lengkap!');
+                    
+                    // Redirect to home page after successful save
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1500);
+                } else {
+                    // Show specific validation errors if available
+                    if (data.errors) {
+                        const errorMessages = Object.values(data.errors).flat().join(', ');
+                        throw new Error(`Validation errors: ${errorMessages}`);
+                    }
+                    throw new Error(data.message || 'Terjadi kesalahan saat menyimpan dokumen');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showErrorMessage(error.message || 'Terjadi kesalahan saat menyimpan dokumen. Silakan coba lagi.');
+            } finally {
+                // Re-enable button and hide loading
+                btn.disabled = false;
+                btnText.classList.remove('hidden');
+                btnLoading.classList.add('hidden');
+            }
+        }
+
+        // Add event listener for final save button
+        document.addEventListener('DOMContentLoaded', function() {
+            const saveButton = document.getElementById('save-final-button');
+            if (saveButton) {
+                saveButton.addEventListener('click', handleFinalSave);
+            }
+        });
     </script>
 
     @include('documents.modals.kemasan-modal')

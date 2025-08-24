@@ -32,12 +32,34 @@ class BarangController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'document_id' => 'required|exists:documents,id',
-            'seri' => 'required|integer|min:1',
             'pos_tarif_hs' => 'required|string|max:255',
             'uraian_jenis_barang' => 'required|string',
             'nilai_barang' => 'required|numeric|min:0',
             'jumlah_satuan' => 'required|numeric|min:0',
             'jenis_satuan' => 'required|string|max:255',
+            'pernyataan_lartas' => 'nullable|in:terkena,tidak_terkena',
+            'kode_barang' => 'nullable|string|max:255',
+            'spesifikasi_lain' => 'nullable|string',
+            'kondisi_barang' => 'nullable|in:barang_baru,barang_bekas',
+            'negara_asal' => 'nullable|string|max:10',
+            'berat_bersih' => 'nullable|numeric|min:0',
+            'jumlah_kemasan' => 'nullable|numeric|min:0',
+            'kemasan' => 'nullable|string|max:255',
+            'fob' => 'nullable|numeric|min:0',
+            'freight' => 'nullable|numeric|min:0',
+            'asuransi' => 'nullable|numeric|min:0',
+            'harga_per_satuan' => 'nullable|numeric|min:0',
+            'nilai_pabean_rupiah' => 'nullable|numeric|min:0',
+            'dokumen_fasilitas_lartas' => 'nullable|string|max:255',
+            'bm_rate' => 'nullable|numeric|min:0|max:100',
+            'bm_type' => 'nullable|string|max:255',
+            'bm_amount' => 'nullable|string|max:255',
+            'ppn_rate' => 'nullable|numeric|min:0|max:100',
+            'ppn_type' => 'nullable|string|max:255',
+            'ppn_amount' => 'nullable|string|max:255',
+            'pph_rate' => 'nullable|numeric|min:0|max:100',
+            'pph_type' => 'nullable|string|max:255',
+            'pph_amount' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -47,13 +69,23 @@ class BarangController extends Controller
             ], 422);
         }
 
-        $barang = Barang::create($request->all());
+        try {
+            $barang = Barang::create($request->all());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Barang berhasil ditambahkan',
-            'data' => $barang
-        ], 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Barang berhasil ditambahkan',
+                'data' => $barang
+            ], 201);
+        } catch (\Exception $e) {
+            \Log::error('Error creating barang: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error creating barang: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -70,12 +102,34 @@ class BarangController extends Controller
     public function update(Request $request, Barang $barang)
     {
         $validator = Validator::make($request->all(), [
-            'seri' => 'required|integer|min:1',
             'pos_tarif_hs' => 'required|string|max:255',
             'uraian_jenis_barang' => 'required|string',
             'nilai_barang' => 'required|numeric|min:0',
             'jumlah_satuan' => 'required|numeric|min:0',
             'jenis_satuan' => 'required|string|max:255',
+            'pernyataan_lartas' => 'nullable|in:terkena,tidak_terkena',
+            'kode_barang' => 'nullable|string|max:255',
+            'spesifikasi_lain' => 'nullable|string',
+            'kondisi_barang' => 'nullable|in:barang_baru,barang_bekas',
+            'negara_asal' => 'nullable|string|max:10',
+            'berat_bersih' => 'nullable|numeric|min:0',
+            'jumlah_kemasan' => 'nullable|numeric|min:0',
+            'kemasan' => 'nullable|string|max:255',
+            'fob' => 'nullable|numeric|min:0',
+            'freight' => 'nullable|numeric|min:0',
+            'asuransi' => 'nullable|numeric|min:0',
+            'harga_per_satuan' => 'nullable|numeric|min:0',
+            'nilai_pabean_rupiah' => 'nullable|numeric|min:0',
+            'dokumen_fasilitas_lartas' => 'nullable|string|max:255',
+            'bm_rate' => 'nullable|numeric|min:0|max:100',
+            'bm_type' => 'nullable|string|max:255',
+            'bm_amount' => 'nullable|string|max:255',
+            'ppn_rate' => 'nullable|numeric|min:0|max:100',
+            'ppn_type' => 'nullable|string|max:255',
+            'ppn_amount' => 'nullable|string|max:255',
+            'pph_rate' => 'nullable|numeric|min:0|max:100',
+            'pph_type' => 'nullable|string|max:255',
+            'pph_amount' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {

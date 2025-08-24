@@ -8,8 +8,22 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     Nomor Aju
+                    <span class="text-xs text-gray-500">(Auto Generated)</span>
                 </label>
-                <input type="text" name="nomor_aju" value="{{ old('nomor_aju', $document->nomor_aju ?? '000020-010653-20250823-000004') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" 
+                       name="nomor_aju" 
+                       id="nomor_aju" 
+                       value="{{ old('nomor_aju', $document->nomor_aju ?? '') }}" 
+                       readonly
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-700 cursor-not-allowed focus:outline-none">
+                <div class="mt-1 flex justify-between items-center">
+                    <p class="text-xs text-gray-500">Format: 000020010653YYYYMMDD######</p>
+                    <button type="button" 
+                            onclick="regenerateNomorAju()" 
+                            class="text-xs text-blue-600 hover:text-blue-800 underline">
+                        Regenerate
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -23,9 +37,8 @@
                 </label>
                 <select name="pelabuhan_tujuan" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Pilih Pelabuhan Tujuan</option>
-                    <option value="IDTPP - TANJUNG PRIOK" {{ old('pelabuhan_tujuan', $document->pelabuhan_tujuan ?? '') == 'IDTPP - TANJUNG PRIOK' ? 'selected' : '' }}>IDTPP - TANJUNG PRIOK</option>
-                    <option value="IDPLB - PALEMBANG">IDPLB - PALEMBANG</option>
-                    <option value="IDBTM - BATAM">IDBTM - BATAM</option>
+                    <option value="IDTPP" {{ old('pelabuhan_tujuan', $document->pelabuhan_tujuan ?? '') == 'IDTPP' ? 'selected' : '' }}>IDTPP - TANJUNG PRIOK</option>
+                    <option value="IDCGK" {{ old('pelabuhan_tujuan', $document->pelabuhan_tujuan ?? '') == 'IDCGK' ? 'selected' : '' }}>IDCGK - SOEKARNO HATTA</option>
                 </select>
             </div>
             
@@ -35,8 +48,8 @@
                 </label>
                 <select name="kantor_pabean" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Pilih Kantor Pabean</option>
-                    <option value="040300 - KPU BEA DAN CUKAI TIPE A TJ. PRIOK" {{ old('kantor_pabean', $document->kantor_pabean ?? '') == '040300 - KPU BEA DAN CUKAI TIPE A TJ. PRIOK' ? 'selected' : '' }}>040300 - KPU BEA DAN CUKAI TIPE A TJ. PRIOK</option>
-                    <option value="050100 - KPU BEA DAN CUKAI TANJUNG PRIOK">050100 - KPU BEA DAN CUKAI TANJUNG PRIOK</option>
+                    <option value="040300" {{ old('kantor_pabean', $document->kantor_pabean ?? '') == '040300' ? 'selected' : '' }}>040300 - KPU BEA DAN CUKAI TIPE A TJ. PRIOK</option>
+                    <option value="050100" {{ old('kantor_pabean', $document->kantor_pabean ?? '') == '050100' ? 'selected' : '' }}>050100 - KPU BEA DAN CUKAI SOEKARNO HATTA</option>
                 </select>
             </div>
         </div>
@@ -51,9 +64,8 @@
                 </label>
                 <select name="jenis_pib" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Pilih Jenis PIB</option>
-                    <option value="1 - BIASA" {{ old('jenis_pib', $document->jenis_pib ?? '') == '1 - BIASA' ? 'selected' : '' }}>1 - BIASA</option>
-                    <option value="2 - BERKALA">2 - BERKALA</option>
-                    <option value="3 - SUSULAN">3 - SUSULAN</option>
+                    <option value="1" {{ old('jenis_pib', $document->jenis_pib ?? '') == '1' ? 'selected' : '' }}>1 - BIASA</option>
+                    <option value="2" {{ old('jenis_pib', $document->jenis_pib ?? '') == '2' ? 'selected' : '' }}>2 - BERKALA</option>
                 </select>
             </div>
 
@@ -63,8 +75,8 @@
                 </label>
                 <select name="jenis_impor" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Pilih Jenis Impor</option>
-                    <option value="1 - UNTUK DIPAKAI" {{ old('jenis_impor', $document->jenis_impor ?? '') == '1 - UNTUK DIPAKAI' ? 'selected' : '' }}>1 - UNTUK DIPAKAI</option>
-                    <option value="2 - SEMENTARA">2 - SEMENTARA</option>
+                    <option value="1" {{ old('jenis_impor', $document->jenis_impor ?? '') == '1' ? 'selected' : '' }}>1 - UNTUK DIPAKAI</option>
+                    <option value="2" {{ old('jenis_impor', $document->jenis_impor ?? '') == '2' ? 'selected' : '' }}>2 - SEMENTARA</option>
                 </select>
             </div>
 
@@ -75,9 +87,9 @@
                 </label>
                 <select name="cara_pembayaran" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Pilih Cara Pembayaran</option>
-                    <option value="2 - BERKALA" {{ old('cara_pembayaran', $document->cara_pembayaran ?? '') == '2 - BERKALA' ? 'selected' : '' }}>2 - BERKALA</option>
-                    <option value="1 - TUNAI">1 - TUNAI</option>
-                    <option value="3 - KREDIT">3 - KREDIT</option>
+                    <option value="2" {{ old('cara_pembayaran', $document->cara_pembayaran ?? '') == '2' ? 'selected' : '' }}>2 - BERKALA</option>
+                    <option value="1" {{ old('cara_pembayaran', $document->cara_pembayaran ?? '') == '1' ? 'selected' : '' }}>1 - BIASA</option>
+
                 </select>
             </div>
         </div>
@@ -97,3 +109,38 @@
         </button>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-generate nomor_aju if empty
+    const nomorAjuInput = document.getElementById('nomor_aju');
+    if (!nomorAjuInput.value.trim()) {
+        generateNomorAju();
+    }
+});
+
+function generateNomorAju() {
+    fetch('/documents/generate-nomor-aju', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('nomor_aju').value = data.nomor_aju;
+        }
+    })
+    .catch(error => {
+        console.error('Error generating nomor_aju:', error);
+    });
+}
+
+function regenerateNomorAju() {
+    if (confirm('Are you sure you want to generate a new Nomor Aju? The current one will be replaced.')) {
+        generateNomorAju();
+    }
+}
+</script>
