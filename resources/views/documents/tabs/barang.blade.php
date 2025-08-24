@@ -8,9 +8,7 @@
             <button type="button" id="add-barang-btn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
                 + Tambah
             </button>
-            <button type="button" onclick="console.log('Test button clicked'); console.log('BarangCRUD:', window.BarangCRUD);" class="px-3 py-1 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 text-xs">
-                Test
-            </button>
+            
         </div>
     </div>
 
