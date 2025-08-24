@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('barangs', function (Blueprint $table) {
-            $table->string('pernyataan_lartas')->nullable()->after('jenis_satuan');
             $table->string('kode_barang')->nullable()->after('pernyataan_lartas');
             $table->text('spesifikasi_lain')->nullable()->after('kode_barang');
             $table->enum('kondisi_barang', ['barang_baru', 'barang_bekas'])->nullable()->after('spesifikasi_lain');
@@ -28,7 +27,6 @@ return new class extends Migration
     {
         Schema::table('barangs', function (Blueprint $table) {
             $table->dropColumn([
-                'pernyataan_lartas',
                 'kode_barang',
                 'spesifikasi_lain',
                 'kondisi_barang',
