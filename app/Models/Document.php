@@ -59,7 +59,24 @@ class Document extends Model
         'tanggal_tiba',
         'pelabuhan_muat',
         'pelabuhan_transit',
-        'tempat_penimbunan'
+        'tempat_penimbunan',
+        // Transaction/Harga fields
+        'jenis_valuta',
+        'ndpbm',
+        'jenis_transaksi',
+        'harga_barang_incoterm',
+        'harga_barang_nilai',
+        'nilai_pabean',
+        // Biaya Lainnya fields
+        'biaya_penambah',
+        'biaya_pengurang',
+        'freight',
+        'asuransi_jenis',
+        'asuransi_nilai',
+        'voluntary_declaration',
+        // Berat fields
+        'berat_kotor',
+        'berat_bersih'
     ];
 
     protected $casts = [
@@ -80,5 +97,10 @@ class Document extends Model
     public function petiKemas()
     {
         return $this->hasMany(PetiKemas::class);
+    }
+
+    public function barangs()
+    {
+        return $this->hasMany(Barang::class);
     }
 }

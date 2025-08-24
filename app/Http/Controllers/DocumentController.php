@@ -71,6 +71,21 @@ class DocumentController extends Controller
                 'pelabuhan_muat' => 'nullable|string',
                 'pelabuhan_transit' => 'nullable|string',
                 'tempat_penimbunan' => 'nullable|string',
+                // Transaction validation
+                'jenis_valuta' => 'nullable|string',
+                'ndpbm' => 'nullable|numeric',
+                'jenis_transaksi' => 'nullable|string',
+                'harga_barang_incoterm' => 'nullable|string',
+                'harga_barang_nilai' => 'nullable|numeric',
+                'nilai_pabean' => 'nullable|numeric',
+                'biaya_penambah' => 'nullable|numeric',
+                'biaya_pengurang' => 'nullable|numeric',
+                'freight' => 'nullable|numeric',
+                'asuransi_jenis' => 'nullable|string',
+                'asuransi_nilai' => 'nullable|numeric',
+                'voluntary_declaration' => 'nullable|numeric',
+                'berat_kotor' => 'nullable|numeric',
+                'berat_bersih' => 'nullable|numeric',
             ]);
 
             $document->update($validated);

@@ -20,15 +20,13 @@ class PetiKemasController extends Controller
         $document = Document::findOrFail($documentId);
         
         $validated = $request->validate([
+            'seri' => 'required|string|max:255',
             'nomor' => 'required|string|max:255',
             'ukuran' => 'required|string|max:255',
             'jenis_muatan' => 'required|string|max:255',
             'tipe' => 'required|string|max:255',
         ]);
 
-        // Get the next seri number
-        $lastSeri = $document->petiKemas()->max('seri') ?? 0;
-        $validated['seri'] = $lastSeri + 1;
         $validated['document_id'] = $document->id;
 
         $petiKemas = PetiKemas::create($validated);
@@ -48,6 +46,7 @@ class PetiKemasController extends Controller
     public function update(Request $request, $documentId, PetiKemas $petiKemas)
     {
         $validated = $request->validate([
+            'seri' => 'required|string|max:255',
             'nomor' => 'required|string|max:255',
             'ukuran' => 'required|string|max:255',
             'jenis_muatan' => 'required|string|max:255',
